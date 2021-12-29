@@ -1,0 +1,21 @@
+const auth = {
+    namespaced: true,
+    state: () => ({
+        user: null,}),
+    mutations: {        change(state, a ){
+
+
+          //  alert('mutation CHANGE  '+JSON.stringify(a[0]))
+            state.user= a[0];
+
+        },
+        clear(state ){
+            state.user= null;
+        },},
+    actions: {
+
+    },
+    getters: {  }
+}
+
+export default auth
