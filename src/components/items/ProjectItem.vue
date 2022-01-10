@@ -1,5 +1,6 @@
-<template>
-  <div  class="sticker-left sticker-info text-center"  v-for="(item,id) in fromParent" :key="id" :value="item" :data-sticker="item.name">
+<template><div v-if="loading" class="loader"></div>
+  <div v-else>
+  <div @click="$emit('openprj',  item)" class="sticker-left sticker-info text-center"  v-for="(item,id) in fromParent" :key="id" :value="item" :data-sticker="item.name">
   <table style="border-collapse: collapse; width:100%;" border="0">
     <tbody>
     <tr>
@@ -21,7 +22,7 @@
     </tbody>
   </table>
 
-  </div>
+  </div></div>
 </template>
 
 <script>
@@ -31,9 +32,31 @@ export default {
 /*  mounted() {
       info.setText("fgf");
   },*/
+  data(){return{
+    loading: true
+  }},
+
   props:{
-    fromParent: null
-  }
+    fromParent: []
+  },
+  mounted() {
+    this.checkData()
+  },
+  updated() {
+    this.checkData()
+  },
+  methods:{
+    checkData() {
+      if ( this.fromParent.length ===0 || this.fromParent[0].prefix ) {
+        this.loading=false
+      } else
+        setTimeout(() => {
+          this.loading=true
+          this.checkData();
+        }, 300)
+
+
+    }}
 }
 </script>
 

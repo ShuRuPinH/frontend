@@ -1,6 +1,7 @@
 <template>
-  <h2 style="background: #f0ad4e">Вы исполнитель:  <a @click="prt">dswdsda</a> </h2>
-  <div class="sticker-left sticker-warning text-center" v-for="(item,id) in fromParent_sort" :key="id" :value="item" :data-sticker="item.name">
+  <div v-if="loading" class="loader"></div><div v-else>
+  <h2 style="background: #f0ad4e">Вы исполнитель  /с учетом фильтров/ : {{fromParent_sort.length}} шт. </h2>
+  <div  @click="$emit('opentask',  item)" class="sticker-left sticker-warning text-center" v-for="(item,id) in fromParent_sort" :key="id" :value="item" :data-sticker="item.name">
     <table style="border-collapse: collapse; width:100%;" border="0">
       <tbody>
       <tr>
@@ -23,8 +24,8 @@
     </table>
   </div>
 
-  <h2 style="background: #d9534f">Все: </h2>
-  <div class="sticker-left sticker-danger text-center" v-for="(item,id) in fromParent" :key="id" :value="item" :data-sticker="item.name">
+  <h2 style="background: #d9534f">Все /с учетом фильтров/ : {{fromParent.length}} шт.</h2>
+  <div @click="$emit('opentask',  item) " class="sticker-left sticker-danger text-center" v-for="(item,id) in fromParent" :key="id" :value="item" :data-sticker="item.name">
   <table style="border-collapse: collapse; width:100%;" border="0">
     <tbody>
     <tr>
@@ -45,7 +46,7 @@
     </tr>
     </tbody>
   </table>
-  </div>
+  </div></div>
 </template>
 
 <script>
@@ -56,7 +57,8 @@ export default {
   name: "TaskItemAll",
   data(){
     return{
-      fromParent_sort : []
+      fromParent_sort : [],
+      loading: true
     }
   },
   props: {
@@ -76,10 +78,12 @@ this.checkData()
     },
 
     checkData() {
-      if (this.fromParent[0].executor ) {
+      if (this.fromParent[0] && this.fromParent[0].executor ) {
         this.fromParent_sort = this.fromParent.filter((task) => task.executor.id == store.state.auth.user.id);
+        this.loading=false
       } else
         setTimeout(() => {
+          this.loading=true
           this.checkData();
         }, 300)
 

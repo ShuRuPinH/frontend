@@ -71,7 +71,7 @@
                 <a id="hideFilters" @click="hideFilters">использовать</a> *
                 <a v-if="hideF" id="hideDTPiker" @click="hideDTPiker">ограничить временной интервал </a></p>
               <div v-if="hideF" style="padding: 10px;" class="row">
-                <div v-if="index!==1" style="background-color: #deecf3" class="col">
+                <div v-if="index===2 || index===20" style="background-color: #deecf3" class="col">
                   <label for="projFilter" class="form-label">Отсортировать по проектам</label>
                   <Select id="projFilter"
                           :list="allprojects"
@@ -82,7 +82,7 @@
                 </div>
 
                 <div style="background-color: #dfe1e2" class="col ">
-                  <label for="userFilter" class="form-label">Отсортировать по {{index ===1? "владельцу" :"исполнителю"  }}</label>
+                  <label for="userFilter" class="form-label">Отсортировать по {{index ===1 || index===10? "владельцу" :"исполнителю"  }}</label>
                   <Select id="userFilter"
                           :list="users"
                           title='Не фильтровать'
@@ -103,7 +103,7 @@
                 </div>
               </div>
               <div class="col-md-12" id="content">
-                <ItemsList :list=requestTemp :type="index"></ItemsList>
+                <ContentConteiner :list=requestTemp :type="index"></ContentConteiner>
 
               </div>
             </div>
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import ItemsList from '@/components/ItemsList.vue'
+import ContentConteiner from "@/components/ContentConteiner";
 import store from "@/store";
 import Footer from "@/components/Footer";
 import MakeTask from "@/modal/MakeTask";
@@ -132,7 +132,7 @@ export default {
   props: ['keycloak'],
 
   components: {
-    ItemsList,
+    ContentConteiner,
     Footer,
     MakeTask,
     MakeProject,
@@ -145,7 +145,7 @@ export default {
       hideF: false,
       hideDTp: false,
       infoText: "Welcome",
-      index: 1,
+      index: 20,
       username: "username",
       loading: true,
       isShowModalP: false,
@@ -156,20 +156,27 @@ export default {
         fromDate: null,
         toDate: null
       },
-      requestTemp: []
+      requestTemp: [],
+
     }
   },
 
   methods: {
+
+
+
     hideFilters() {
       this.hideF = !this.hideF;
       if (!this.hideF) {
-        document.getElementById("hideFilters").innerText = "использовать"
+        document.getElementById("hideFilters").innerText = "использовать";
+        this.filter.projectName=null;
+        this.filter.userName=null;this.setActive(this.index);
       } else {
         document.getElementById("hideFilters").innerText = "скрыть фильтры" //todo reset or not when hide
-        this.filter.projectName=null;
-        this.filter.userName=null;
+
+
       }
+
     },
     hideDTPiker() {
       this.hideDTp = !this.hideDTp;
@@ -177,6 +184,7 @@ export default {
         document.getElementById("hideDTPiker").innerText = "ограничить временной интервал"
         this.filter.fromDate = null
         this.filter.toDate = null
+
       } else {
         document.getElementById("hideDTPiker").innerText = "скрыть выбор временного  интервала"
       }
@@ -209,15 +217,13 @@ export default {
       switch (t){
         case 1: type='p'; break;
         case 2: type='t'; break;
-
-
         default : alert("TABS error "); break;
       }
 
       let filtered = (await dataService.data_req("","rest/filter/"+type+"/"+this.filter.projectName +"/"+this.filter.userName+"/"
           +this.filter.fromDate + "/"+ this.filter.toDate ,"GET")).data;
       if (filtered) {
-        console.log( "good Req :\n" +JSON.stringify(filtered))
+       // console.log( "good Req :\n" +JSON.stringify(filtered))
         this.requestTemp=filtered;}
     },
     async personReq(t){
@@ -231,19 +237,19 @@ export default {
       let filtered = (await dataService.data_req("","rest/person/"+type+"/"+store.state.auth.user.id+"/"+this.filter.projectName +"/"+this.filter.userName+"/"
           +this.filter.fromDate + "/"+ this.filter.toDate ,"GET")).data;
       if (filtered) {
-        console.log( "good Req :\n" +JSON.stringify(filtered))
+       // console.log( "good Req :\n" +JSON.stringify(filtered))
         this.requestTemp=filtered;}
     },
 
 
 
-    setActive(index) {
-      this.index = index;
+   async setActive(index) {
+     this.index = index;
 
       if (index <10)
-      this.filterReq(this.index);
+     await this.filterReq(this.index);
       else {
-        this.personReq(this.index);
+        await this.personReq(this.index);
       }
 
     },
@@ -273,7 +279,7 @@ export default {
     this.checkData();
   },
   mounted() {
-    this.filterReq(this.index);
+    this.setActive(this.index);
     console.log("created  this.username = " + this.username);
   },
 
