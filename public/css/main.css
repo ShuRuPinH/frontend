@@ -1,0 +1,241 @@
+
+* {
+    border-radius: 6px;
+    border-collapse: separate;
+
+}
+
+.wb{
+
+    border-color: #ffffff; /* Цвет границы */
+    border-radius: 10px;
+    border-style: solid; /* Стиль границы */
+    padding: 5px; /* Поля вокруг текста */
+}
+div {
+
+    padding: 5px;
+}
+
+label {
+    font-size: small;
+}
+
+
+
+#menu {
+    border: 0px solid black;
+    padding: 2px;
+
+}
+
+#main {
+
+    padding: 5px;
+}
+
+#content {
+    border: 0px solid black;
+    padding: 10px;
+
+}
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+
+}
+
+.nav-link {
+    font-size: larger;
+    font-weight: bold;
+    color: #2f9f8f;
+    border-radius: 0;
+
+
+}
+
+.nav-link:hover {
+    color: #87ef3e;
+
+}
+
+
+
+#nav {
+    padding: 10px;
+    background-color: coral;
+}
+
+#nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+    color: #42b94e;
+}
+
+.active {
+    color: red;
+}
+
+.loader {
+    margin-right: auto;
+    margin-left: auto;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #2f9f8f;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+[class*="sticker"] {
+    position: relative;
+    margin: 15px 0;
+    padding: 33px 15px 15px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 1px 1px 2px 1px rgba(148, 145, 145, 0.64)
+}
+
+[class*="sticker"]:after {
+    content: attr(data-sticker);
+    position: absolute;
+    top: 0;
+    padding: 3px 7px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #999;
+    color: #fff
+}
+
+.sticker-left {
+    border-top-left-radius: 6px
+}
+
+.sticker-right {
+    border-top-right-radius: 6px
+}
+
+.sticker-left:after {
+    left: 0;
+    border-radius: 6px 0 6px 0
+}
+
+.sticker-right:after {
+    right: 0;
+    border-radius: 0 6px 0 6px
+}
+
+.sticker-danger:after {
+    background: #d9534f
+}
+
+.sticker-warning:after {
+    background: #f0ad4e
+}
+
+.sticker-success:after {
+    background: #5cb85c
+}
+
+.sticker-info:after {
+    background: #5bc0de
+}
+
+.sticker-inverse:after {
+    background: #222
+}
+
+.sticker-primary:after {
+    background: #b17ef3
+}
+
+.BUG {
+    background-color: #ef4f5c;
+}
+
+.TASK {
+    background-color: #a0c799;
+}
+
+.EPIC {
+    background-color: #b3a2f5;
+}
+
+.pr1 {
+    background-color: #ebedee;
+}
+
+.pr2 {
+    background-color: #87ef4f;
+}
+
+.pr3 {
+    background-color: #f1a95e;
+}
+
+.pr4 {
+    background-color: #ef4fb4;
+}
+
+.greyfooter {
+    background-color: #f3edc7;
+}
+
+.white {
+    background-color: white;
+}
+
+.circ {
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 6px;
+}
+
+table.page {
+
+    padding: 2px;
+    border-radius: 6px;
+    border-spacing: 4px 4px;
+    border-collapse: separate;
+}
+
+table.ppp {
+    background-color: #b2ceee;
+}
+
+table.ttt {
+    background-color: #ecd1a2;
+}
+
+#fprior,#ftype{
+    background: transparent;
+}
+

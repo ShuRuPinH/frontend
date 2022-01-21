@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import App from './App.vue'
+import Start from './Start'
 import router from '@/router'
 import store from '@/store';
 import Keycloak from "keycloak-js";
@@ -7,7 +7,9 @@ import Keycloak from "keycloak-js";
 
 
 let initOptions = {
-    url: 'http://localhost:8887/auth', realm: 'Task_Manager', clientId: 'tm', onLoad: 'login-required'
+   // url: 'http://localhost:8887/auth', realm: 'Task_Manager', clientId: 'tm', onLoad: 'login-required'
+
+    url: 'http://192.168.0.145:8887/auth', realm: 'Task_Manager', clientId: 'tm', onLoad: 'login-required'
 }
 
 let keycloak = Keycloak(initOptions);
@@ -19,9 +21,9 @@ keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
 
     } else {
         console.log("Authenticated - "+ keycloak.clientId);
-        console.log("token - "+ keycloak.idToken);
+    /*    console.log("token - "+ keycloak.idToken);*/
 
-        createApp(App, {  keycloak: keycloak } ).use(router).use(store).mount('#app');
+        createApp(Start, {  keycloak: keycloak } ).use(router).use(store).mount('#app');
 
     }
 
@@ -30,7 +32,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
     setInterval(() => {
         keycloak.updateToken(70).then((refreshed) => {
             if (refreshed) {
-                console.log('Token refreshed '+ keycloak.token);
+             /*   console.log('Token refreshed '+ keycloak.token);*/
             } else {
                 console.log('Token not refreshed, valid for '
                     + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');

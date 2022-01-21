@@ -3,9 +3,9 @@
     <div class="modal-wrapper">
       <div class="modal-container">
 
-        <div class="modal-header">
-          <slot name="header">
-            <h4>Создать задачу</h4>
+
+
+          <p style="font-size: xx-large;font-weight: bold; text-align: left; color: #1003A5">   Создать задачу</p>
             <div class="input-group mb-3">
 
               <span class="input-group-text">Название:</span>
@@ -14,8 +14,8 @@
               <input type="text" class="form-control" v-model.trim="t.code">
             </div>
 
-          </slot>
-        </div>
+
+
         <br>
         <div class="row">
           <div class="col">
@@ -23,7 +23,7 @@
                 :list="projects"
                 title='Выберите проект'
                 use-placeholder="true"
-                @change="chTProj($event)"
+                @selected="chTProj($event)"
             />
           </div>
           <div class="col">
@@ -31,14 +31,14 @@
                 :list="types"
                 title='Выберите тип'
                 use-placeholder="true"
-                @change="chTType($event)"
+                @selected="chTType($event)"
             /></div>
           <div class="col">
             <Select
                 :list="users"
                 title='Исполнитель'
                 use-placeholder="true"
-                @change="chTExec($event)"
+                @selected="chTExec($event)"
             />
 
           </div>
@@ -47,27 +47,29 @@
                 :list="priors"
                 title='Приоритет'
                 use-placeholder="true"
-                @change="chTPrior($event)"
+                @selected="chTPrior($event)"
             />
           </div>
         </div>
-        <div class="modal-body">
-          <slot name="body">
-            Описание<textarea rows="10" style="width: 100%" v-model.trim="t.description" type="text"/>
-          </slot>
+        <div >
+
+           <textarea rows="10" style=" width: 100%;" v-model.trim="t.description" type="text"/>
+
 
         </div>
 
-        <div class="modal-footer">
+        <div class=" footer">
           <slot v-if="this.user" name="footer">
             User email = {{ user.email }} User id = {{ user.id }}
-            <button class="btn btn-success" @click="sendData">
+            <button style="background-color: #F39191" class="btn" @click="$emit('close')">
+              Отмена
+            </button>&nbsp;
+
+            <button class="btn" style="background-color: #56C86F" @click="sendData">
               Создать
             </button>
 
-            <button class="btn btn-danger" @click="$emit('close')">
-              Отмена
-            </button>
+
           </slot>
         </div>
       </div>
@@ -93,7 +95,7 @@ export default {
         id: null,
         code: null,
         name: "Название задачи",
-        description: "ТЗ задачи или описание ошибки...",
+        description: "Описание задания",
         type: {
           id: null
         },
@@ -140,12 +142,12 @@ export default {
     },
     chTProj(e) {
       let tproject = find.inAbyNwithX(this.projects, "id", e.target.value);
-      alert(JSON.stringify(tproject))
-      this.t.code = tproject.prefix + "-" + 1;
+      this.t.code = tproject.prefix + "-" + 1; //todo
       this.t.project = tproject
     },
     chTType(e) {
       this.t.type.id = e.target.value;
+
     },
     chTPrior(e) {
       this.t.priority.id = e.target.value;
@@ -156,7 +158,6 @@ export default {
       alert(JSON.stringify(this.t));
       alert((await dataService.data_req(this.t, "rest/task/create", "POST")).status);
       await dataService.refresh();
-
       this.$emit('close');
       router.push('List')
     }
@@ -176,7 +177,8 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity 0.3s ease;
+  transition: opacity 1s ease;
+
 }
 
 .modal-wrapper {
@@ -188,19 +190,19 @@ export default {
   width: 50%;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  background-color:rgb(238,214,126);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+
+  font-family: "Roboto Light", Arial, sans-serif;
 }
 
 .modal-header {
-  background-color: #6c757d;
+
 }
 
 .modal-body {
-  margin: 20px 0;
+  margin: 0px 0;
+
 }
 
 .modal-default-button {
@@ -215,8 +217,11 @@ export default {
  * You can easily play with the modal transition by editing
  * these styles.
  */
-.modal-footer {
-  background-color: darkgray;
+.footer {
+  text-align: right;
+margin: 5px;
+  background-color: #e9ecef;
+border-width: 0;
 }
 
 .modal-enter {

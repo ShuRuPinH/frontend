@@ -3,25 +3,16 @@
     <div class="modal-wrapper">
       <div class="modal-container">
 
+        <p style="font-size: xx-large;font-weight: bold; text-align: left; color: #1003A5">   Редактирование элемента</p>
 
-        <p style="font-size: xx-large;font-weight: bold; text-align: left; color: #1003A5">   Создать проект</p>
-        <div class="input-group mb-3">
+        <form id="eform"  >
+        <div v-for="(val,key) in inputitem" :key="key"  class="input-group mb-3">
 
-          <span class="input-group-text">Название:</span>
-          <input style="width: 40%" type="text" class="form-control" v-model.trim="p.name">
-          <span class="input-group-text">префикс:</span>
-          <input type="text" class="form-control" v-model.trim="p.prefix">
-        </div>
+          <span class="input-group-text">{{key}}:  </span>
 
+          <input @change='this.formchange(key,$event)' style="width: 40%" type="text" class="form-control" :value="val">
 
-
-
-        <div >
-          <textarea rows="10" style=" width: 100%;" v-model.trim="p.description" type="text"/>
-
-
-        </div>
-
+        </div></form>
         <div class=" footer">
           <slot v-if="this.user" name="footer">
             User email = {{ user.email }} User id = {{ user.id }}
@@ -32,8 +23,6 @@
             <button class="btn" style="background-color: #56C86F" @click="sendData">
               Создать
             </button>
-
-
           </slot>
         </div>
       </div>
@@ -46,9 +35,10 @@ import store from '@/store';
 import dataService from "@/services/axios_req"
 
 
+
 export default {
 
-
+  props: ['inputitem'],
   data() {
     return {
       p: {
@@ -61,14 +51,17 @@ export default {
           id: null
         }
       },
-      user: Object
+      user:store.state.auth.user,
+      tempitem: this.inputitem
     }
   },
   computed() {
 
+
   },
   mounted() {
-    this.user = store.state.auth.user
+   console.log(" tempitem \n"+JSON.stringify(this.tempitem))
+    console.log(" this.inputitem\n"+JSON.stringify(this.inputitem))
   },
   methods: {
     closeModal() {
@@ -80,12 +73,20 @@ export default {
       // todo  store.dispatch - act
       this.$emit('close');
     }
-  },
+  ,
+  formchange(key,e){
+    this.tempitem =  this.inputitem;
+    this.tempitem[key]=e.target.value;
+    alert(JSON.stringify(this.tempitem))
+  }}
+
 };
 </script>
 
 
 <style scoped>
+
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -106,10 +107,11 @@ export default {
 
 .modal-container {
   width: 50%;
+  height: 90%;
   margin: 0px auto;
   padding: 20px 30px;
-
-  background-color: #7eabee;
+  overflow: scroll;
+  background-color: #eec57e;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: "Roboto Light", Arial, sans-serif;

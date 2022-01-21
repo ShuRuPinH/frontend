@@ -18,6 +18,10 @@ const store= createStore({
             store.commit('auth/change', arr)
             store.commit('list/change', arr)
 
+        },
+        clear(){
+            store.commit('auth/clear');
+            store.commit('list/clear');
         }
     },
     mutations: {
@@ -38,6 +42,7 @@ const store= createStore({
         subscribe(state) {
             // Store the state object as a JSON string
             localStorage.setItem('store', JSON.stringify(state));
+
         }
     }
 });

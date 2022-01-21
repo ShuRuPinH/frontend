@@ -1,15 +1,15 @@
 <template>
   <div>
     <div style="height: 30px"/>
-    <div v-if="loading" class="loader"></div>
+    <div v-if="loading"  class="loader"></div>
     <div v-else style="width: 80%;" class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-<!--          <div class="row">
-            <div id="head" class="col-md-12">
+          <!--          <div class="row">
+                      <div id="head" class="col-md-12">
 
-            </div>
-          </div>-->
+                      </div>
+                    </div>-->
           <div class="row">
             <div id="menu" class="d-none d-md-block col-md-3"><img style="height: 50px;" alt="Vue logo"
                                                                    src="@/assets/logo.png">
@@ -29,30 +29,35 @@
               />
               <button @click="ModalProj" class="btn btn-outline-success">Создать проект</button>
               <hr>
+
               Утром я составляю планы, а днем делаю глупости.<br> <i> (Вольтер)
-              </i>
+              </i> <br>
+              <router-link to="/admin">Admin</router-link>
               <hr>
               <br>
-              <a @click="keycloak.logout()"> ВЫХОД </a>
+              <a @click="$emit('logout')"> ВЫХОД </a>
             </div>
             <div id="main" class=" col-md-9">
               <div class="row">
                 <div style="" class="page-header">
 
                   <ul class="nav nav-tabs">
-                    <li  class="nav-item ">
-                      <a style="color: #0bacf5" class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Ваши  :</a>
-                    </li>  <li class="nav-item">
-                    <a :class="index === 20? 'nav-link active':'nav-link' " @click="setActive(20)"
-                    >Задачи</a>
-                  </li>
+                    <li class="nav-item ">
+                      <a style="color: #0bacf5" class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Ваши
+                        :</a>
+                    </li>
+                    <li class="nav-item">
+                      <a :class="index === 20? 'nav-link active':'nav-link' " @click="setActive(20)"
+                      >Задачи</a>
+                    </li>
                     <li class="nav-item">
                       <a :class="index === 10? 'nav-link active':'nav-link' " @click="setActive(10)"
                       >Проекты</a>
                     </li>
 
-                    <li  class="nav-item ">
-                      <a style= "color:  #0d75a5" class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">&nbsp;&nbsp;&nbsp;&nbsp; Все  :</a>
+                    <li class="nav-item ">
+                      <a style="color:  #0d75a5" class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">&nbsp;&nbsp;&nbsp;&nbsp;
+                        Все :</a>
                     </li>
                     <li class="nav-item">
                       <a :class="index === 1? 'nav-link active':'nav-link' " @click="setActive(1)"
@@ -70,8 +75,8 @@
               <p><span style="font-size: x-large">Быстрые фильтры </span> *
                 <a id="hideFilters" @click="hideFilters">использовать</a> *
                 <a v-if="hideF" id="hideDTPiker" @click="hideDTPiker">ограничить временной интервал </a></p>
-              <div v-if="hideF" style="padding: 10px;" class="row">
-                <div v-if="index===2 || index===20" style="background-color: #deecf3" class="col">
+              <div v-if="hideF" class="row">
+                <div v-if="index===2 || index===20" style=" background-color: #deecf3" class="col wb">
                   <label for="projFilter" class="form-label">Отсортировать по проектам</label>
                   <Select id="projFilter"
                           :list="allprojects"
@@ -81,8 +86,9 @@
                   />
                 </div>
 
-                <div style="background-color: #dfe1e2" class="col ">
-                  <label for="userFilter" class="form-label">Отсортировать по {{index ===1 || index===10? "владельцу" :"исполнителю"  }}</label>
+                <div style="background-color: #dfe1e2" class="col wb">
+                  <label for="userFilter" class="form-label">Отсортировать по
+                    {{ index === 1 || index === 10 ? "владельцу" : "исполнителю" }}</label>
                   <Select id="userFilter"
                           :list="users"
                           title='Не фильтровать'
@@ -90,16 +96,40 @@
                   />
                 </div>
 
-                <div v-if="hideDTp" style="background-color: #ecf5e6; width: 24%" class="col ">
+                <div v-if="hideDTp" style="background-color: #ecf5e6; width: 24%" class="col wb">
                   <label for="fromdate" class="form-label">Начало периода</label>
-                  <input @change="filterCh($event,'fromDate')"  class="form-control"
+                  <input @change="filterCh($event,'fromDate')" class="form-control"
                          id="fromdate" type="datetime-local">
 
                 </div>
-                <div v-if="hideDTp" style="background-color: #ecf5e6;  width: 24%" class="col ">
+                <div v-if="hideDTp" style="background-color: #ecf5e6;  width: 24%" class="col wb">
                   <label for="todate" class="form-label">Конец период</label>
-                  <input @change="filterCh($event, 'toDate')"  class="form-control" id="todate"
+                  <input @change="filterCh($event, 'toDate')" class="form-control" id="todate"
                          type="datetime-local">
+                </div>
+
+                <div style="margin-left: auto; margin-right: auto " class="row"><h3>Фильтры по задачам</h3>
+                  <div :class="ff.ftype == null ? 'col wb' : 'col wb '+ ftype[ff.ftype-1].name">
+                    <Select id="ftype"
+                            :list="ftype"
+                            title='Все типы'
+                            @selected="chFF($event, 'ftype')"
+                    /></div>
+                  <div :class="'col wb pr' +ff.fprior">
+                    <Select id="fprior"
+                            :list="fprior"
+                            title='Все приоритеты'
+                            @selected="chFF($event,'fprior')"
+                    /></div>
+                  <div class="col wb ">
+                    <Select id="fstatus"
+                            :list="fstatus"
+                            title='Все статусы'
+                            @selected="chFF($event,'fstatus' )"
+                    /></div>
+                  <div class="col wb ">
+                    <input type="text" placeholder="Содержит текст" @change="chFF($event,'ftext' )"/>
+                  </div>
                 </div>
               </div>
               <div class="col-md-12" id="content">
@@ -124,12 +154,12 @@ import MakeTask from "@/modal/MakeTask";
 import MakeProject from "@/modal/MakeProject";
 import Select from "@/modal/Select";
 import dataService from "@/services/axios_req";
-
+import service_ffilter from "@/services/fffilter";
 
 
 export default {
   name: 'App',
-  props: ['keycloak'],
+
 
   components: {
     ContentConteiner,
@@ -157,6 +187,15 @@ export default {
         toDate: null
       },
       requestTemp: [],
+      ftype: store.state.list.TASK_TYPES,
+      fstatus: store.state.list.STATUS,
+      fprior: store.state.list.PRIORITY,
+      ff: {
+        ftype: null,
+        fstatus: null,
+        fprior: null,
+        ftext: null
+      }
 
     }
   },
@@ -164,13 +203,13 @@ export default {
   methods: {
 
 
-
     hideFilters() {
       this.hideF = !this.hideF;
       if (!this.hideF) {
         document.getElementById("hideFilters").innerText = "использовать";
-        this.filter.projectName=null;
-        this.filter.userName=null;this.setActive(this.index);
+        this.filter.projectName = null;
+        this.filter.userName = null;
+        this.setActive(this.index);
       } else {
         document.getElementById("hideFilters").innerText = "скрыть фильтры" //todo reset or not when hide
 
@@ -197,7 +236,7 @@ export default {
 
     },
     filterCh(e, param) {
-      this.filter[param] = e.target.value;
+      this.filter[param] = e.target.value == "" ? null : e.target.value;
       if (Date.parse(this.filter.fromDate) >= Date.parse(this.filter.toDate)) {
         alert("Ошибка в датах: начало периода после его конца.");
         this.filter.fromDate = null
@@ -210,77 +249,99 @@ export default {
           "\n fromDate:" + this.filter.fromDate +
           "\n todate: " + this.filter.toDate)
 
-       this.setActive(this.index);
+      this.setActive(this.index);
     },
-    async filterReq(t){
-      let type ="";
-      switch (t){
-        case 1: type='p'; break;
-        case 2: type='t'; break;
-        default : alert("TABS error "); break;
+    async filterReq(t) {
+      let type = "";
+      switch (t) {
+        case 1:
+          type = 'p';
+          break;
+        case 2:
+          type = 't';
+          break;
+        default :
+          alert("TABS error ");
+          break;
       }
 
-      let filtered = (await dataService.data_req("","rest/filter/"+type+"/"+this.filter.projectName +"/"+this.filter.userName+"/"
-          +this.filter.fromDate + "/"+ this.filter.toDate ,"GET")).data;
+      let filtered = (await dataService.data_req("", "rest/filter/" + type + "/" + this.filter.projectName + "/" + this.filter.userName + "/"
+          + this.filter.fromDate + "/" + this.filter.toDate, "GET")).data;
       if (filtered) {
-       // console.log( "good Req :\n" +JSON.stringify(filtered))
-        this.requestTemp=filtered;}
+        this.fffilter(filtered, type);
+      }
     },
-    async personReq(t){
-      let type ="";
-      switch (t){
-        case 10: type='p'; break;
-        case 20: type='t'; break;
-        default : alert("TABS error "); break;
+    async personReq(t) {
+      let type = "";
+      switch (t) {
+        case 10:
+          type = 'p';
+          break;
+        case 20:
+          type = 't';
+          break;
+        default :
+          alert("TABS error ");
+          break;
       }
 
-      let filtered = (await dataService.data_req("","rest/person/"+type+"/"+store.state.auth.user.id+"/"+this.filter.projectName +"/"+this.filter.userName+"/"
-          +this.filter.fromDate + "/"+ this.filter.toDate ,"GET")).data;
+      let filtered = (await dataService.data_req("", "rest/person/" + type + "/" + store.state.auth.user.id + "/" + this.filter.projectName + "/" + this.filter.userName + "/"
+          + this.filter.fromDate + "/" + this.filter.toDate, "GET")).data;
       if (filtered) {
-       // console.log( "good Req :\n" +JSON.stringify(filtered))
-        this.requestTemp=filtered;}
+        this.fffilter(filtered, type);
+      }
+    },
+/// FF methods start
+    chFF(e, param) {
+      this.ff[param] = e.target.value == "" ? null : e.target.value;
+
+      console.log(" change FF: " + JSON.stringify(this.ff))
+
+      this.setActive(this.index);
     },
 
+    fffilter(arr, type) {
 
+      this.requestTemp = service_ffilter.do(arr, this.ff, type);
+    },
+    /// FF methods END
 
-   async setActive(index) {
-     this.index = index;
+    async setActive(index) {
+      this.index = index;
 
-      if (index <10)
-     await this.filterReq(this.index);
+      if (index < 10)
+        await this.filterReq(this.index);
       else {
         await this.personReq(this.index);
       }
 
     },
-    checkData() {
-      if (store.state.auth.user) {
-        this.username = store.state.auth.user.email;
-        this.loading = false;
-        store.commit('subscribe');
-      } else
-        setTimeout(() => {
-          this.checkData();
-        }, 300)
+    async checkData() { // todo move to start
+      try {
+        if (store.state.auth.user) {
+          this.username = store.state.auth.user.email;
 
+          this.loading = false;
+          store.commit('subscribe');
+        } else
+          setTimeout(() => {
+            this.checkData();
+          }, 300)
+      } catch (e) {
+        console.log('ERROR   '+e)
+        window.location.reload();
+      }
 
     }
 
+
   },
-  async beforeCreate() {
-   if (! store.commit('initialiseStore')){
-    await this.keycloak.loadUserProfile()
-        .then(function (profile) {
-          let userq = profile.username.toString();
-          store.dispatch('getState', userq).then(
-              console.log("beforeCreate() then = " + JSON.stringify(store))
-          )
-        });}
+  beforeMount() {
     this.checkData();
   },
   mounted() {
     this.setActive(this.index);
-    console.log("created  this.username = " + this.username);
+
   },
 
   computed: {
@@ -304,165 +365,6 @@ export default {
 
 
 </script>
-<style>
-
-div {
-  padding: 5px;
-}
-
-label {
-  font-size: small;
-}
-
-#position {
-  padding: 10px;
-  background: #f1f1f1;
-  border-radius: 6px;
-  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .64)
-}
-
-#menu {
-  border: 0px solid black;
-  padding: 5px;
-
-}
-
-#main {
-
-  padding: 5px;
-}
-
-#content {
-  border: 0px solid black;
-  padding: 10px;
-
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-
-}
-
-.nav-link {
-  font-size: larger;
-  font-weight: bold;
-  color: #2f9f8f;
+<style></style>
 
 
-}
-
-.nav-link:hover {
-  color: #87ef3e;
-
-}
-
-.nav-link.active {
-  color: #f81f60;
-  font-weight: bolder;
-  font-size: larger;
-
-}
-
-#nav {
-  padding: 30px;
-  background-color: coral;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b94e;
-}
-
-.active {
-  color: red;
-}
-
-.loader {
-  margin-right: auto;
-  margin-left: auto;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #2f9f8f;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-[class*="sticker"] {
-  position: relative;
-  margin: 15px 0;
-  padding: 33px 15px 15px;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .64)
-}
-[class*="sticker"]:after {
-  content: attr(data-sticker);
-  position: absolute;
-  top: 0;
-  padding: 3px 7px;
-  font-size: 16px;
-  font-weight: bold;
-  background: #999;
-  color: #fff
-}
-.sticker-left {
-  border-top-left-radius: 6px
-}
-.sticker-right {
-  border-top-right-radius: 6px
-}
-.sticker-left:after {
-  left: 0;
-  border-radius: 6px 0 6px 0
-}
-.sticker-right:after {
-  right: 0;
-  border-radius: 0 6px 0 6px
-}
-.sticker-danger:after {
-  background: #d9534f
-}
-.sticker-warning:after {
-  background: #f0ad4e
-}
-.sticker-success:after {
-  background: #5cb85c
-}
-.sticker-info:after {
-  background: #5bc0de
-}
-.sticker-inverse:after {
-  background: #222
-}
-
-</style>

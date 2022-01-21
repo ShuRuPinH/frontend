@@ -3,17 +3,17 @@ import store from '@/store';
 import keycloak from "@/main";
 
 
-//const URL= "http://localhost:8080/";
+//const URL= "http://192.168.0.145:8080/";
 
 const dataService ={
    async  text_req(data ,route, method) {
      // let rez = null;
    return await axios({
         method: method,
-        url: "http://localhost:8989/"+route,
-        host:"http://localhost:8081",
+        url: "http://192.168.0.145:8989/"+route,
+        host:"http://192.168.0.145:8081",
        headers: {'Accept':'application/json', "Authorization": 'Bearer '+ this.token()},
-
+       params: {userId : store.state.auth.user.email},
         data: JSON.parse(data)
       }).then(response =>{return  response.data;}).catch(error => { return error});
 
@@ -23,8 +23,8 @@ const dataService ={
       // let rez = null;
     return await axios({
          method: method,
-         url: "http://localhost:8989/"+route,
-         host:"http://localhost:8081",
+         url: "http://192.168.0.145:8989/"+route,
+         host:"http://192.168.0.145:8081",
         headers: {'Accept':'application/json', "Authorization": 'Bearer '+ this.token()},
 
          data: data
@@ -37,8 +37,8 @@ const dataService ={
         // let rez = null;
         return await axios({
             method: 'GET',
-            url: "http://localhost:8989/rest/user/auth",
-            host:"http://localhost:8081",
+            url: "http://192.168.0.145:8989/rest/user/auth",
+            host:"http://192.168.0.145:8081",
             headers: {'Accept':'application/json', "Authorization": 'Bearer '+ this.token()},
 
             params: {userId : userq}
@@ -51,8 +51,8 @@ const dataService ={
     async refresh(){
        let newdata = await axios({
            method: 'GET',
-           url: "http://localhost:8989/rest/user/auth",
-           host:"http://localhost:8081",
+           url: "http://192.168.0.145:8989/rest/user/auth",
+           host:"http://192.168.0.145:8081",
            headers: {'Accept':'application/json', "Authorization": 'Bearer '+ this.token()},
 
            data: {}

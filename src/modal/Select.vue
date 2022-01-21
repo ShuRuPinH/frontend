@@ -1,6 +1,6 @@
 <template>
-  <select :value="selectedOption" class="form-control" @change="$emit('change', $event)">
-    <option  value="null" ref="placeholderOption" >{{ title }}</option>
+  <select :value="selectedOption" class="form-control" @change="$emit('selected', $event)">
+    <option  value="" ref="placeholderOption" >{{ title }}</option>
     <option v-for="(item ,ind) in list" :key="ind" :value="item.id">{{ item.name }}</option>
   </select>
 </template>
