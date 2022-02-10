@@ -5,7 +5,7 @@
       <td style="background-color: #e8ebf5; width: 11.3103%;">ID:&nbsp;<strong>{{item.id}}</strong></td>
       <td :class="item.type.name" style="width: 19.7241%;"><span >{{item.type.name}}</span> </td>
       <td style="width: 48.5517%;"></td>
-      <td style="background-color: #d8abe7; width: 20.4138%;">Код:<strong>{{item.code}}</strong></td>
+      <td style="background-color: #d8abe7; width: 20.4138%;">Код:<strong>{{item.code}}-{{item.id}}</strong></td>
     </tr>
     <tr>
       <td style="width: 11.3103%;">Описание:</td>

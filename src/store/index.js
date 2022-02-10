@@ -15,8 +15,10 @@ const store= createStore({
         async  getState(state, userId) {
 
             let arr =  await clientService.check_a(userId);
+            if (arr){
             store.commit('auth/change', arr)
-            store.commit('list/change', arr)
+            store.commit('list/change', arr)}
+            else return false;
 
         },
         clear(){

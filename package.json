@@ -15,6 +15,7 @@
     "vue-router": "^4.0.0-0",
     "lodash": "^4.17.21",
     "keycloak-js": "^15.0.2",
+    "@auth0/auth0-spa-js": "^1.13.3",
     "vuejs-logger": "^1.5.5",
     "vuex": "^4.0.0"
   },

@@ -44,7 +44,7 @@ this.checkData()
     },
 
     checkData() {
-      if (this.fromParent[0] && this.fromParent[0].executor ) {
+      if (this.fromParent.length === 0 || this.fromParent[0] && this.fromParent[0].executor ) {
         this.fromParent_sort = this.fromParent.filter((task) => task.executor.id == store.state.auth.user.id);
         this.loading=false
       } else

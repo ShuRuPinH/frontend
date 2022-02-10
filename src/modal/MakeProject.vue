@@ -9,8 +9,8 @@
 
           <span class="input-group-text">Название:</span>
           <input style="width: 40%" type="text" class="form-control" v-model.trim="p.name">
-          <span class="input-group-text">префикс:</span>
-          <input type="text" class="form-control" v-model.trim="p.prefix">
+<!--          <span class="input-group-text">префикс:</span>
+          <input type="text" class="form-control" v-model.trim="p.prefix">-->
         </div>
 
 
@@ -56,7 +56,7 @@ export default {
         id: null,
         name: "Назовите проект",
         description: "Описание проекта",
-        prefix: "Prfx()",
+        prefix: "PRFX",
         owner: {
           id: null
         }
@@ -69,12 +69,14 @@ export default {
   },
   mounted() {
     this.user = store.state.auth.user
+
   },
   methods: {
     closeModal() {
     },
     async sendData() {
       this.p.owner.id = this.user.id
+      alert(this.p.owner.id)
       alert((await dataService.data_req(this.p, "rest/project/create", "POST")).status);
       await dataService.refresh();
       // todo  store.dispatch - act

@@ -10,8 +10,8 @@
 
               <span class="input-group-text">Название:</span>
               <input style="width: 40%" type="text" class="form-control" v-model.trim="t.name">
-              <span class="input-group-text">код:</span>
-              <input type="text" class="form-control" v-model.trim="t.code">
+<!--  <span class="input-group-text">код:</span>
+              <input type="text" class="form-control" v-model.trim="t.code">-->
             </div>
 
 
@@ -142,7 +142,7 @@ export default {
     },
     chTProj(e) {
       let tproject = find.inAbyNwithX(this.projects, "id", e.target.value);
-      this.t.code = tproject.prefix + "-" + 1; //todo
+      this.t.code = tproject.prefix;
       this.t.project = tproject
     },
     chTType(e) {
@@ -155,11 +155,12 @@ export default {
 
     async sendData() {
       this.t.author.id = this.user.id
+
       alert(JSON.stringify(this.t));
       alert((await dataService.data_req(this.t, "rest/task/create", "POST")).status);
       await dataService.refresh();
       this.$emit('close');
-      router.push('List')
+      router.push('/')
     }
   }
 

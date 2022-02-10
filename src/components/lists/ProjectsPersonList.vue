@@ -58,7 +58,8 @@ components:{
         }, 300)}
 
  catch (e){
-  this.window.refresh()
+   console.log(" ProjectsPersonList error : "+ e)
+   //location.reload();
     }
 }}
 

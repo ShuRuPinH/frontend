@@ -1,0 +1,6 @@
+{
+  "domain": "dev-wbn79a28.us.auth0.com",
+  "client_id": "DPfgi4t6qvefjOxKwugDccpIb8j39LGT",
+  "redirect_uri": "https://192.168.0.145:8081/callback",
+  "audience": "http://localhost:8989"
+}

@@ -16,7 +16,8 @@
   <div v-if="fromParent[0][0]">
     <h2 >Поставленные задачи: {{fromParent[0].length}} шт.</h2>
 
-  <div  @click="$emit('opentask',  item2) " class="sticker-left sticker-warning  text-center" v-for="(item2,id) in fromParent[0]" :key="id" :value="item2" :data-sticker="item2.name ==null ? 'n/a' : item2.name">
+  <div  @click="$emit('opentask',  item2) " class="sticker-left sticker-warning  text-center"
+        v-for="(item2,id) in fromParent[0]" :key="id" :value="item2" :data-sticker="item2.name ==null ? 'n/a' : item2.name">
     <TaskListItem :item="item2"/>
   </div></div>
   <div v-else><h2 >Нет поставленных задач.</h2></div>
@@ -53,7 +54,7 @@ methods:{
 
   checkData() {
 
-      if (this.fromParent.length ==2 && (this.fromParent[0].length ==0 && this.fromParent[1].length ==0)
+    try{   if (this.fromParent.length ==2 && (this.fromParent[0].length ==0 && this.fromParent[1].length ==0)
           || (this.fromParent[0] && this.fromParent[0][0] && this.fromParent[0][0].executor )
           || (this.fromParent[1] &&  this.fromParent[1][0] && this.fromParent[1][0].executor ))
     {
@@ -63,7 +64,12 @@ methods:{
       setTimeout(() => {
         this.checkData();
         this.loading=true
-      }, 300)
+      }, 300)}
+
+    catch (e){
+      alert(e)
+      location.reload();
+    }
 
 
   }}

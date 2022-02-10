@@ -37,15 +37,17 @@ const service_ffilter={
 
         if (ff.ftext!= null){
 
+            let filterText=ff.ftext.toLowerCase();
+
             if (!arr[0][0]){
-                arr= arr.filter((task)=> task.name.toLowerCase().includes(ff.ftext.toLowerCase())
-                    || task.description.toLowerCase().includes(ff.ftext.toLowerCase()))
+                arr= arr.filter((task)=> task.name.toLowerCase().includes(filterText)
+                    || task.description.toLowerCase().includes(filterText) || task.code.toLowerCase().includes(filterText))
             }
             else if (arr[0][0]){
-            arr[0]= arr[0].filter((task)=> task.name.toLowerCase().includes(ff.ftext.toLowerCase())
-                || task.description.toLowerCase().includes(ff.ftext.toLowerCase()))
-            arr[1]= arr[1].filter((task)=> task.name.toLowerCase().includes(ff.ftext.toLowerCase())
-                || task.description.toLowerCase().includes(ff.ftext.toLowerCase()))}
+            arr[0]= arr[0].filter((task)=> task.name.toLowerCase().includes(filterText)
+                || task.description.toLowerCase().includes(filterText) || task.code.toLowerCase().includes(filterText))
+            arr[1]= arr[1].filter((task)=> task.name.toLowerCase().includes(filterText)
+                || task.description.toLowerCase().includes(filterText) || task.code.toLowerCase().includes(filterText))}
             else {alert("filter error 3   arr.length="+arr.length)}
         }
 

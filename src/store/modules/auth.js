@@ -6,7 +6,7 @@ const auth = {
 
 
           //  alert('mutation CHANGE  '+JSON.stringify(a[0]))
-            state.user= a[0];
+           if(a) state.user= a[0];
 
         },
         clear(state ){

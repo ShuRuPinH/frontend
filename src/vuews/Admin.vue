@@ -31,7 +31,7 @@
               <hr>
 
               Утром я составляю планы, а днем делаю глупости.<br> <i> (Вольтер)
-              </i><br> <router-link to="/">User</router-link>
+              </i>
               <hr>
               <br>
               <a @click="$emit('logout')"> ВЫХОД </a>

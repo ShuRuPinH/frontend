@@ -32,10 +32,12 @@
 
               Утром я составляю планы, а днем делаю глупости.<br> <i> (Вольтер)
               </i> <br>
-              <router-link to="/admin">Admin</router-link>
+
               <hr>
               <br>
               <a @click="$emit('logout')"> ВЫХОД </a>
+ <br>
+
             </div>
             <div id="main" class=" col-md-9">
               <div class="row">
@@ -128,7 +130,13 @@
                             @selected="chFF($event,'fstatus' )"
                     /></div>
                   <div class="col wb ">
-                    <input type="text" placeholder="Содержит текст" @change="chFF($event,'ftext' )"/>
+                    <Select id="fprefix"
+                            :list="fprefix"
+                            title='Все префиксы'
+                            @selected="chFF($event,'fprefix' )"
+                    /></div>
+                  <div class="col wb ">
+                    <input type="text" placeholder="Содержит текст /название, описание или префикс/" @change="chFF($event,'ftext' )"/>
                   </div>
                 </div>
               </div>
@@ -155,6 +163,9 @@ import MakeProject from "@/modal/MakeProject";
 import Select from "@/modal/Select";
 import dataService from "@/services/axios_req";
 import service_ffilter from "@/services/fffilter";
+
+
+
 
 
 export default {
@@ -194,6 +205,7 @@ export default {
         ftype: null,
         fstatus: null,
         fprior: null,
+        fprefix: null,
         ftext: null
       }
 
@@ -264,8 +276,15 @@ export default {
           alert("TABS error ");
           break;
       }
+/*
+      await dataService.data_req("", "rest/filter/" + type + "/" + this.filter.projectName + "/" + this.filter.userName + "/"
+          + this.filter.fromDate + "/" + this.filter.toDate, "GET").then((f)=>{
+        if (f) {
+          this.fffilter(f, type);
+        }
+      }).catch((e)=>{alert(e)})*/
 
-      let filtered = (await dataService.data_req("", "rest/filter/" + type + "/" + this.filter.projectName + "/" + this.filter.userName + "/"
+   let filtered = (await dataService.data_req("", "rest/filter/" + type + "/" + this.filter.projectName + "/" + this.filter.userName + "/"
           + this.filter.fromDate + "/" + this.filter.toDate, "GET")).data;
       if (filtered) {
         this.fffilter(filtered, type);
@@ -315,6 +334,10 @@ export default {
         await this.personReq(this.index);
       }
 
+    },async jj(){
+
+
+
     },
     async checkData() { // todo move to start
       try {
@@ -322,7 +345,7 @@ export default {
           this.username = store.state.auth.user.email;
 
           this.loading = false;
-          store.commit('subscribe');
+          //store.commit('subscribe');
         } else
           setTimeout(() => {
             this.checkData();
@@ -345,6 +368,8 @@ export default {
   },
 
   computed: {
+
+
     dataP: () => {
       return store.state.auth.user.projectsOwner
     },  //  getters
@@ -354,6 +379,17 @@ export default {
     },
     allprojects: () => {
       return store.state.list.ALLPROJECTS
+    },
+    fprefix :()=>{
+      let arr = [];
+      let allP = store.state.list.ALLPROJECTS;
+      console.log(JSON.stringify(allP))
+      for (let pr of allP){
+
+        console.log("***  \n"+JSON.stringify(pr))
+        arr.push({name: pr.prefix})
+      }
+      return arr;
     },
     users: () => {
       return store.state.list.USERS

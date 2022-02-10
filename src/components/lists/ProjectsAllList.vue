@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     checkData() {
-      if (this.fromParent.length === 0 || this.fromParent[0].prefix) {
+      if (this.fromParent.length === 0 || this.fromParent[0] &&  this.fromParent[0].prefix) {
         this.loading = false
       } else
         setTimeout(() => {
