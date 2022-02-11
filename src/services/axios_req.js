@@ -1,9 +1,10 @@
 import axios from "axios";
 import store from '@/store';
 import { authPlugin } from "@/auth";
+import {BACK_URL} from '@/config/server'
 
 
-const URL= "https://192.168.0.145:8989/";
+const URL= BACK_URL;
 //const URL= "http://77.51.193.189:1111/";
 
 const { getTokenSilently } = authPlugin;
